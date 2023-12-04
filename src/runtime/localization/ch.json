@@ -1,0 +1,12 @@
+{
+    "alphaNumeric": "字段 {field} 只能包含字母和数字。",
+    "alpha": "字段 {field} 只能包含字母。",
+    "between": "字段 {field} 必须介于 {min} 和 {max} 之间。",
+    "email": "字段 {field} 必须是一个有效的电子邮件地址。",
+    "max": "字段 {field} 不能大于 {max}。",
+    "min": "字段 {field} 必须至少为 {min}。",
+    "numeric": "字段 {field} 必须是一个数字。",
+    "required": "字段 {field} 是必填项。",
+    "url": "字段 {field} 必须是一个有效的URL。",
+    "youtube": "字段 {field} 必须是一个有效的YouTube URL。"
+}

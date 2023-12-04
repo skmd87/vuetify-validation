@@ -1,0 +1,12 @@
+{
+    "alphaNumeric": "El campo {field} solo puede contener caracteres alfanuméricos.",
+    "alpha": "El campo {field} solo puede contener caracteres alfabéticos.",
+    "between": "El campo {field} debe estar entre {min} y {max}.",
+    "email": "El campo {field} debe ser una dirección de correo electrónico válida.",
+    "max": "El campo {field} no puede ser mayor que {max}.",
+    "min": "El campo {field} debe tener al menos {min}.",
+    "numeric": "El campo {field} debe ser un número.",
+    "required": "El campo {field} es obligatorio.",
+    "url": "El campo {field} debe ser una URL válida.",
+    "youtube": "El campo {field} debe ser una URL válida de YouTube."
+}
