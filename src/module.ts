@@ -1,10 +1,11 @@
 import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit'
 import { defu } from 'defu'
-import messages, { type Locale } from './runtime/localization'
+import messages, { type Locales } from './runtime/localization'
+import { klona } from 'klona'
 // Module options TypeScript interface definition
 export interface ModuleOptions {
   defaultLocale?: string,
-  messages?: Locale
+  messages?: Locales
 }
 messages
 export default defineNuxtModule<ModuleOptions>({
@@ -15,13 +16,12 @@ export default defineNuxtModule<ModuleOptions>({
   // Default configuration options of the Nuxt module
   defaults: {
     defaultLocale: 'en',
-    //! TODO: Fix this
-    // messages: messages
+    messages: messages
   },
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
 
-    nuxt.options.runtimeConfig.public.vuetifyValidation = defu(nuxt.options.runtimeConfig.public.vuetifyValidation, options)
+    nuxt.options.runtimeConfig.public.vuetifyValidation = defu(nuxt.options.runtimeConfig.public.vuetifyValidation, klona(options))
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     addPlugin(resolver.resolve('./runtime/plugin'))

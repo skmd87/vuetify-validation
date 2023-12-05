@@ -11,7 +11,20 @@ import ru from './ru.json';
 import ch from './ch.json';
 import hi from './hi.json';
 
-export type Locale = Record<string, Record<string, string>>;
+export type Locale = Record<string, string>;
+export type Locales = Record<
+   "en" |
+   "de" |
+   "es" |
+   "fr" |
+   "it" |
+   "ja" |
+   'ar' |
+   "pt" |
+   "ru" |
+   "ch" |
+   "hi" |
+   string, Locale>;
 
 export default {
    en,
@@ -25,4 +38,4 @@ export default {
    ru,
    ch,
    hi
-} as Locale
+} as Locales

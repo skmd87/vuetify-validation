@@ -39,4 +39,4 @@ export type ValidatorRule<F> =
     ? (...args: PrevArgs) => Validator
     : never;
 
-export type ValidationResult = (fieldName?: Field) => (value: any) => boolean | string;
+export type ValidationResult = (directValue?: FieldValue) => boolean | string | ((value: FieldValue) => boolean | string);

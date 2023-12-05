@@ -17,13 +17,13 @@ export class Validator {
     #stack: Stack[] = [];
     #nuxtInstance: NuxtApp | null = null;
     #config: ModuleOptions | null = null;
+    #label: string | null = null;
     currentLocale: string | null = null;
     constructor(nuxtInstance: NuxtApp, config: ModuleOptions) {
         this.#nuxtInstance = nuxtInstance;
         this.#config = config;
         this.currentLocale = config.defaultLocale ?? null;
     }
-
 
     #addStack(type: Stack['type'], handler: Stack['handler'], args?: Stack['args']) {
         this.#stack.push({ type, handler, args });
@@ -155,10 +155,8 @@ export class Validator {
     #getRuleMessage(rule: string, field: string, args: Stack['args']) {
         //@ts-ignore
         const messages = this.#getMessages()
-        console.log("🚀 ~ file: Validator.ts:168 ~ Validator ~ #getRuleMessage ~ messages:", messages)
         let message = messages?.[rule] ?? ''
         message = message.replace(/\{field\}/g, field);
-        console.log("🚀 ~ file: Validator.ts:170 ~ Validator ~ #getRuleMessage ~ message:", message)
 
         if (args) {
             const argsKeys = Object.keys(args ?? {});
@@ -179,16 +177,21 @@ export class Validator {
         return this.#nuxtInstance?.$i18n;
     }
 
-
-    validate: ValidationResult = (field: Field = '') => {
+    label(label: string) {
+        this.#label = label;
+        return this;
+    }
+    validate: ValidationResult = (directValue) => {
         //loop through the stack and execute each rule, once we get a false, we stop and return the error msg
-        return (value: FieldValue) => {
+        const fn = (value: FieldValue) => {
             let result = true;
             let error = null;
             if (value === undefined || "") {
                 //normalize empty values to null
                 value = null;
             }
+
+
             for (let i = 0; i < this.#stack.length; i++) {
 
                 const { handler, args, type } = this.#stack[i];
@@ -201,7 +204,7 @@ export class Validator {
                 result = handler(args)(value);
 
                 if (result === false) {
-                    error = this.#getRuleMessage(handler.name, field, args);
+                    error = this.#getRuleMessage(handler.name, this.#label ?? '', args);
                     break;
                 }
                 /*else if (result === null) {
@@ -217,6 +220,12 @@ export class Validator {
             }
 
             return true
+        }
+
+        if (directValue !== undefined) {
+            return fn(directValue);
+        } else {
+            return fn;
         }
     }
 

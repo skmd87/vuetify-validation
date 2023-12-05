@@ -14,10 +14,13 @@ declare module "#app" {
 export default defineNuxtPlugin((nuxtApp) => {
 	const config = useRuntimeConfig()
 
-	const validator: Validator = new Validator(nuxtApp as NuxtApp, config.public.vuetifyValidation as ModuleOptions);
 	return {
 		provide: {
-			'vv': validator
+			'vv': (label: string) => {
+				const validator: Validator = new Validator(nuxtApp as NuxtApp, config.public.vuetifyValidation as ModuleOptions);
+
+				return validator.label(label);
+			}
 		},
 	};
 })
