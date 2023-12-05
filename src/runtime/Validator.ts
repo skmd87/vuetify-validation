@@ -1,5 +1,5 @@
 import type { NuxtApp } from 'nuxt/app';
-import type { Rule, Modifier, ValidatorRule, FieldValue, Field, ValidationResult } from '../types';
+import type { Rule, Modifier, ValidatorRule, FieldValue, Args, ValidationResult } from '../types';
 import type { ModuleOptions } from '../module'
 import rules, { integer } from './rules';
 import modifiers from './modifiers';
@@ -7,7 +7,7 @@ import modifiers from './modifiers';
 
 type Stack = {
     type: 'rule' | 'modifier';
-    handler: Rule<any[]> | Modifier;
+    handler: Rule<Args> | Modifier;
     args?: Record<string, any>;
 }
 
@@ -195,13 +195,16 @@ export class Validator {
             for (let i = 0; i < this.#stack.length; i++) {
 
                 const { handler, args, type } = this.#stack[i];
+                console.log("🚀 ~ file: Validator.ts:198 ~ Validator ~ fn ~ args:", args ? Object.values(args) : '')
 
                 if (type === 'modifier') {
                     value = handler(value);
                     continue;
                 }
 
-                result = handler(args)(value);
+                const argsValues: Args[] = args ? Object.values(args) : []
+                // @ts-ignore
+                result = handler(...argsValues)(value);
 
                 if (result === false) {
                     error = this.#getRuleMessage(handler.name, this.#label ?? '', args);

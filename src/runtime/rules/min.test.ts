@@ -7,6 +7,11 @@ describe('min rule', () => {
         expect(rule(10)).toBe(true)
     })
 
+    it('returns true for number greater than min', () => {
+        const rule = min(0.5)
+        expect(rule(10)).toBe(true)
+    })
+
     it('returns false for number less than or equal to min', () => {
         const rule = min(5)
         expect(rule(3)).toBe(false)

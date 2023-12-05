@@ -2,6 +2,7 @@ import type { FieldValue, MinArgs, Rule } from '../../types/index';
 
 const min: Rule<MinArgs> = (min) => {
     return (v: FieldValue) => {
+        console.log("🚀 ~ file: min.ts:5 ~ return ~ v:", v, min, Number(min))
 
         if (v === null) return null
 
